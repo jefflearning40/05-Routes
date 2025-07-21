@@ -1,2 +1,180 @@
-### Ciné Club
-## 
+openapi: 3.0.0
+info:
+  title: CineClub API
+  version: 1.0.0
+  description: API REST pour gérer une collection de films et de réalisateurs.
+
+servers:
+  - url: http://localhost:3000
+    description: Serveur local
+    
+    tags:
+  - name: Health
+    description: Vérification du bon fonctionnement de l'API
+  - name: Items
+    description: Gestion des ressources "items"
+
+paths:
+  /:
+    get:
+      summary: Accueil
+      responses:
+        '200':
+          description: Message de bienvenue
+tags:
+  - name: objets films
+    description: Lecture du films.json
+  - name: Lire les films
+    description: lecture du fichier "films"
+   
+    /films:
+    get:
+      summary: Récupère la liste des films
+      responses:
+        '200':
+          description: Liste des films
+          content:
+            application/json:
+              schema:
+                type: objets
+                items:
+                  $ref: '#/data/Films'
+tags:
+  - name: objet films
+    description: ajouter un film dans json
+  - name: films
+    description: ajout "films"
+    post:
+      summary: Ajoute un nouveau film
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/data/Film'
+      responses:
+        '201':
+          description: Film ajouté
+        '400':
+          description: Requête invalide
+        '500':
+          description: Erreur serveur
+tags:
+  - name: objet films
+    description: voir un film selon l'id dans json
+  - name: films
+    description: voir film precis "films"
+    /films/{id}:
+    get:
+      summary: Récupère un film par son ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Détail du film
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+        '404':
+          description: Film introuvable
+        '400':
+          description: ID invalide
+tags:
+  - name: objet films
+    description: supprimer un film selon l'id dans json
+  - name: films
+    description: effacer film precis "films"
+    delete:
+      summary: Supprime un film par son ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Film supprimé
+        '404':
+          description: Film non trouvé
+        '500':
+          description: Erreur serveur
+tags:
+  - name: objet films
+    description: modifier le titre d'un film selon l'id dans json
+  - name: films
+    description: changer titre "films"
+    patch:
+      summary: Met à jour le titre d’un film
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - titre
+              properties:
+                titre:
+                  type: string
+      responses:
+        '200':
+          description: Titre mis à jour
+        '400':
+          description: Requête invalide
+        '404':
+          description: Film non trouvé
+        '500':
+          description: Erreur serveur
+
+    /realisateurs:
+    get:
+      summary: Récupère la liste des réalisateurs
+      responses:
+        '200':
+          description: Liste des réalisateurs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Realisateur'
+
+components:
+  schemas:
+    Film:
+      type: object
+      required:
+        - id
+        - titre
+      properties:
+        id:
+          type: integer
+          example: 1
+        titre:
+          type: string
+          example: "Inception"
+
+    Realisateur:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nom:
+          type: string
+          example: "Christopher Nolan"
+        nationalite:
+          type: string
+          example: "Britannique"

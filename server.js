@@ -3,13 +3,15 @@ const fs = require('fs');
 const path = require('path');
 
 const YAML = require('yamljs');
+const swaggerUi = require('swagger-ui-express');
 
 // Charger le fichier swagger.yaml
 const swaggerDocument = YAML.load('./swagger.yaml');
 
+
 const app = express();
 app.use(express.json());
-
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Charger les fichiers de données
 let films = require('./data/films.json');
 const realisateurs = require('./data/realisateurs.json');

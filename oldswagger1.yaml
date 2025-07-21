@@ -1,0 +1,127 @@
+openapi: 3.0.0
+info:
+  title: API Générique
+  description: API de démonstration documentée avec OpenAPI 3.0
+  version: "1.0.0"
+servers:
+  - url: http://localhost:3000
+    description: Serveur local de développement
+
+tags:
+  - name: Health
+    description: Vérification du bon fonctionnement de l'API
+  - name: Items
+    description: Gestion des ressources "items"
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Vérifie que l'API fonctionne
+      responses:
+        '200':
+          description: API opérationnelle
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+
+  /items:
+    get:
+      tags:
+        - Items
+      summary: Liste tous les items
+      responses:
+        '200':
+          description: Liste des items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: Exemple Item
+
+    post:
+      tags:
+        - Items
+      summary: Crée un nouvel item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Mon nouveau item
+      responses:
+        '201':
+          description: Item créé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Mon nouveau item
+
+  /items/{id}:
+    get:
+      tags:
+        - Items
+      summary: Récupère un item spécifique par ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de l'item
+      responses:
+        '200':
+          description: Item trouvé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: Exemple Item
+        '404':
+          description: Item non trouvé
+
+    delete:
+      tags:
+        - Items
+      summary: Supprime un item par ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de l'item
+      responses:
+        '204':
+          description: Item supprimé (pas de contenu)
