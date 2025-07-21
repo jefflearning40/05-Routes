@@ -2,6 +2,11 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
+const YAML = require('yamljs');
+
+// Charger le fichier swagger.yaml
+const swaggerDocument = YAML.load('./swagger.yaml');
+
 const app = express();
 app.use(express.json());
 

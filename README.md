@@ -1,85 +1,71 @@
-# 🎬 CineClub API – Partie 3 : Structuration & sécurisation des routes
 
-## 🎯 Objectifs
+# 🎬 Documenter l’API CineClub avec Swagger
 
-- Organiser les routes avec `express.Router()`
-- Déplacer la logique films dans un fichier dédié
-- Appliquer un middleware de validation d’ID
-- Intégrer ce routeur dans l’application principale
+## 🎯 Objectif pédagogique
 
----
-
-## 🛠️ Étape 1 : Créer le routeur
-
-1. Crée un dossier `router/`
-2. Crée un fichier `router/films.js`
+Apprendre à :
+- Documenter une API REST avec Swagger (OpenAPI 3.x)
+- Définir les routes, les paramètres, les corps de requête et les réponses
+- Structurer un fichier `swagger.yaml` ou `swagger.json`
+- Visualiser une documentation API à l’aide d’un outil comme Swagger Editor
 
 ---
 
-## ✍️ Étape 2 : Créer le routeur Express
+## 📘 Contexte
 
-À l'intérieur de `films.js` :
-
-- Importe `express`, `fs`, et `path`
-- Initialise un `Router()` avec `express.Router()`
-- Charge le fichier JSON des films (avec `require` ou `fs.readFileSync`)
-- Prépare un middleware **local** pour valider `req.params.id`
-
-*(Pas besoin d’écrire tout de suite le code complet — commence par la structure.)*
+Vous avez développé une API CineClub permettant de gérer une collection de films. Vous allez maintenant rédiger une **documentation technique** complète au format Swagger.
 
 ---
 
-## 🔄 Étape 3 : Implémenter les routes
+## ✅ À produire
 
-Dans `films.js`, ajoute :
-
-- `GET /` pour renvoyer la liste complète des films
-- `GET /:id` en utilisant ta validation d’ID
-- `POST /` pour ajouter un nouveau film (vérifie `id` et `titre`)
-- `PATCH /:id` pour modifier le titre d’un film
-- `DELETE /:id` pour supprimer un film
-
-👉 Astuce : utilise `fs.writeFileSync()` pour persister les changements.
+Un fichier `swagger.yaml` (ou `swagger.json`) décrivant toute l’API CineClub.
 
 ---
 
-## 🔗 Étape 4 : Connecter le routeur
+## 📚 Spécifications à documenter
 
-Dans `index.js` :
+### 1. `GET /`
+> Retourne la **liste complète des films**
 
-1. Importe ton routeur depuis `./router/films`
-2. Monte-le avec `app.use('/films', filmsRouter)`
-3. Supprime ou commente les anciennes routes `/films`
-4. Vérifie que `/realisateurs`, middleware d’erreurs et 404 restent actifs
+### 2. `GET /:id`
+> Récupère un **film par son ID**
 
----
+### 3. `POST /`
+> Ajoute un **nouveau film** (vérifie `id` et `titre`)
 
-## ✅ Étape 5 : Tester et valider
+### 4. `PATCH /:id`
+> Modifie le **titre** d’un film existant
 
-- Teste toutes les routes (`GET`, `POST`, `PATCH`, `DELETE`) avec Thunderclient
-- Vérifie que :
-  - Les IDs invalides renvoient une **erreur 400**
-  - Un film introuvable renvoie **404**
-  - Les modifications sont bien sauvegardées dans le fichier `.json`
+### 5. `DELETE /:id`
+> Supprime un film par son ID
 
 ---
 
-## 💡 Bonus
+## 💡 Suggestions techniques
 
-- Crée un middleware pour **valider le corps de la requête** (par exemple pour `POST`)
-- Ajoute un middleware **de journalisation** (`app.use` global)
-- Prépare le projet pour la suite : middleware JWT, routes `admin`, etc.
-
----
-
-## 📝 Reste organisé
-
-1. Crée une branche `feat_router`
-2. Ajoute le dossier `router` et implémente petit à petit
-3. Teste chaque route avant de passer à la suivante
-4. Fais des commits fréquents pour chaque étape
+- Utilisez des exemples pour les requêtes et réponses
+- Ajoutez une description globale (`info`) à l’API
 
 ---
 
-Bonne organisation ! 🚀  
-Si tu bloques, prépare des journaux de requête ou des logs, et examine les fichiers JSON générés 🙂
+## 🚀 Bonus (facultatif)
+
+- Ajouter une route `GET /ping` qui renvoie `{ message: "pong" }`
+- Documenter les erreurs (400, 404…)
+
+---
+
+## 👀 Comment visualiser votre Swagger
+
+> Vous n’avez **pas besoin d’un serveur Node** pour voir votre documentation Swagger.
+
+### ✅ Méthode 1 : [https://editor.swagger.io](https://editor.swagger.io)
+1. Allez sur : https://editor.swagger.io
+2. Supprimez le contenu de l’éditeur
+3. Copiez-collez votre fichier `swagger.yaml` dedans
+4. Le rendu de votre documentation apparaît en direct à droite
+
+### ✅ Méthode 2 : fichier local + Swagger UI (optionnel)
+1. Installez Swagger UI en local (si vous avez Node)
+2. Ou utilisez une extension VS Code comme **Swagger Viewer**
